@@ -19,23 +19,51 @@ class ProductsViewModel: ObservableObject {
     @Published private(set) var products: [ProductItemViewModel]?
     @Published private(set) var state: ProductsViewModelState = .loading
     
+    var currentPage: Int = 0
+    var totalPages: Int = 1
+    var hasMorePages: Bool {
+        return currentPage < totalPages
+    }
+    var nextPage: Int {
+        return hasMorePages ? currentPage + 1 : currentPage
+    }
+    private var responseProducts: [ProductsResponse] = []
+    
     init(dataService: DataServiceProtocol, imageService: ImageServiceProtocol) {
         self.dataService = dataService
         self.imageService = imageService
     }
     
-    func fetchProducts() {
+    func fetchProducts(query: String = "apple", page: Int = 1) {
         state = .loading
-        let api = ProductsAPI(query: "apple", page: 1)
+        let api = ProductsAPI(query: query, page: page)
         dataService.fetch(api: api) { [weak self] (result: Result<ProductsResponse, AppError>) in
             guard let self = self else { return }
             switch result {
-            case .success(let responseJSON):
-                self.products = responseJSON.products.map({ ProductItemViewModel(product: $0, imageService: self.imageService) })
+            case .success(let response):
+                self.currentPage = response.currentPage
+                self.totalPages = response.pageCount
+                var newResponseProducts = self.responseProducts.filter { responseProduct in
+                    responseProduct.currentPage != response.currentPage
+                }
+                newResponseProducts.append(response)
+                
+                self.responseProducts = newResponseProducts
+                
+                self.products =
+                self.responseProducts
+                    .flatMap({ $0.products })
+                    .map({ ProductItemViewModel(product: $0, imageService: self.imageService) })
+                
                 self.state = .finished
             case .failure(let error):
                 self.state = .error(error)
             }
         }
+    }
+    
+    func fetchNextPage() {
+        guard hasMorePages else { return }
+        fetchProducts(page: nextPage)
     }
 }

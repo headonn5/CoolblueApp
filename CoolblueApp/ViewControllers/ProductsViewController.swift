@@ -91,11 +91,19 @@ extension ProductsViewController: UITableViewDataSource {
         let cellIdentifier = ProductTableViewCell.self.description()
         let cell = tableview.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath)
-        guard let cell = cell as? ProductTableViewCell else { return cell }
+        guard let cell = cell as? ProductTableViewCell,
+              let products = viewModel.products else {
+                    return cell
+              }
        
         // Configure cell
-        let productViewModel = viewModel.products?[indexPath.row]
+        let productViewModel = products[indexPath.row]
         cell.configure(with: productViewModel)
+        
+        // Load next page
+        if indexPath.row == products.count - 1 {
+            viewModel.fetchNextPage()
+        }
         
         return cell
     }
