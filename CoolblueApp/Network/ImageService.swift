@@ -10,7 +10,7 @@ import Foundation
 protocol ImageServiceProtocol {
     func fetchImage(with api: APIResourceProtocol, completion: @escaping (Result<Data, AppError>) -> Void)
 }
-
+// TODO: Add caching mechanism for images
 struct ImageService: ImageServiceProtocol {
     let networkService: NetworkServiceProtocol
     
