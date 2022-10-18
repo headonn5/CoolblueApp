@@ -109,15 +109,22 @@ class ProductTableViewCell: UITableViewCell {
         self.viewModel = viewModel
         
         let api = ImageAPI(urlString: viewModel.imagePath)
-        productImageView.image = nil
-        viewModel.imageService.fetchImage(with: api) { [weak self] (result: Result<Data, AppError>) in
-            guard let self = self else { return }
-            switch result {
-            case .success(let data):
-                guard api.urlString == self.viewModel?.imagePath else { return }
-                self.productImageView.image = UIImage(data: data)
-            case .failure(let error):
-                print(error)
+        // Check cache before downloading images from network
+        if let imageData = ImageCache.shared[api.urlString] {
+            productImageView.image = UIImage(data: imageData)
+        }
+        else {
+            productImageView.image = nil
+            viewModel.imageService.fetchImage(with: api) { [weak self] (result: Result<Data, AppError>) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let data):
+                    guard api.urlString == self.viewModel?.imagePath else { return }
+                    self.productImageView.image = UIImage(data: data)
+                    ImageCache.shared[api.urlString] = data
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
         

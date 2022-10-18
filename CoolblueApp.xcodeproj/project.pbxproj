@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF230DB828FF5A8D00B3856D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF230DB728FF5A8D00B3856D /* ImageCache.swift */; };
 		CF57A69628FC1F8000EDF094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF57A69528FC1F8000EDF094 /* AppDelegate.swift */; };
 		CF57A69828FC1F8000EDF094 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF57A69728FC1F8000EDF094 /* SceneDelegate.swift */; };
 		CF57A69D28FC1F8000EDF094 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF57A69B28FC1F8000EDF094 /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF230DB728FF5A8D00B3856D /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		CF57A69228FC1F8000EDF094 /* CoolblueApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolblueApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF57A69528FC1F8000EDF094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF57A69728FC1F8000EDF094 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			children = (
 				CF57A6D728FC21D100EDF094 /* AlertProtocol.swift */,
 				CF57A6D928FC21E200EDF094 /* Constants.swift */,
+				CF230DB728FF5A8D00B3856D /* ImageCache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				CF57A6D028FC213900EDF094 /* AppError.swift in Sources */,
 				CF57A6FB28FC53D800EDF094 /* SpinnerView.swift in Sources */,
 				CF57A6EC28FC331E00EDF094 /* PromoIcon.swift in Sources */,
+				CF230DB828FF5A8D00B3856D /* ImageCache.swift in Sources */,
 				CF57A6CC28FC20F500EDF094 /* NetworkService.swift in Sources */,
 				CF57A6D528FC219B00EDF094 /* APIResourceProtocol.swift in Sources */,
 				CF57A6E328FC272B00EDF094 /* ProductsViewController.swift in Sources */,
