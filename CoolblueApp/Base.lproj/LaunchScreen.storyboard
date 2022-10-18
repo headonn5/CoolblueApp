@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,18 +15,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coolblue Demo App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aaw-XY-BzL">
-                                <rect key="frame" x="67" y="427" width="280" height="42"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="35"/>
-                                <nil key="textColor"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="kvB-DN-bwA">
+                                <rect key="frame" x="132" y="373.5" width="150" height="149"/>
+                                <color key="tintColor" red="0.99215686274509807" green="0.40000000000000002" blue="0.0039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="97m-Hm-vAS"/>
+                                    <constraint firstAttribute="width" constant="150" id="IEm-Wd-Zt1"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cool blue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wql-RP-kpq">
+                                <rect key="frame" x="154.5" y="433.5" width="105" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.56470588235294117" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Aaw-XY-BzL" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="NG3-xt-ti4"/>
-                            <constraint firstItem="Aaw-XY-BzL" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="e1j-XY-YUA"/>
+                            <constraint firstItem="kvB-DN-bwA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5IG-jQ-B8A"/>
+                            <constraint firstItem="Wql-RP-kpq" firstAttribute="centerX" secondItem="kvB-DN-bwA" secondAttribute="centerX" id="9OU-Ok-xzV"/>
+                            <constraint firstItem="Wql-RP-kpq" firstAttribute="centerY" secondItem="kvB-DN-bwA" secondAttribute="centerY" id="ZsM-Ga-Izj"/>
+                            <constraint firstItem="kvB-DN-bwA" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ikk-np-37D"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,8 +46,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
     </resources>
 </document>
