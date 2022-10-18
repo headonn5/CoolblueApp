@@ -25,9 +25,13 @@ class DataService: DataServiceProtocol {
             switch result {
             case .success(let data):
                 let decodedData: Result<T, AppError> = self.decode(data: data)
-                completionHandler(decodedData)
+                DispatchQueue.main.async {
+                    completionHandler(decodedData)
+                }
             case .failure(let error):
-                completionHandler(.failure(error))
+                DispatchQueue.main.async {
+                    completionHandler(.failure(error))
+                }
             }
         }
     }
