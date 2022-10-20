@@ -11,6 +11,13 @@ import Combine
 class ProductsViewController: UIViewController, AlertProtocol {
     
     let viewModel: ProductsViewModel
+    private var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.barStyle = .default
+        searchBar.placeholder = "Search Product..."
+        searchBar.isTranslucent = true
+        return searchBar
+    }()
     private let tableview: UITableView = .init()
     private var bindings = Set<AnyCancellable>()
     
@@ -26,10 +33,13 @@ class ProductsViewController: UIViewController, AlertProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Products"
+        navigationItem.titleView = searchBar
+        
+        searchBar.delegate = self
         tableview.dataSource = self
         tableview.delegate = self
         tableview.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(tableview)
         
         setupConstraints()
@@ -39,8 +49,6 @@ class ProductsViewController: UIViewController, AlertProtocol {
         
         // Set up view model bindings
         setUpBindings()
-        // Call to fetch data
-        viewModel.fetchProducts()
     }
     
     private func setupConstraints() {
@@ -112,5 +120,13 @@ extension ProductsViewController: UITableViewDataSource {
 extension ProductsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+extension ProductsViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // Fetch products
+        guard let queryString = searchBar.text else { return }
+        viewModel.updateSearchResults(for: queryString)
     }
 }

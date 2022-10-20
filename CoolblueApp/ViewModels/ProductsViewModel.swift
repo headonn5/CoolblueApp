@@ -17,8 +17,9 @@ class ProductsViewModel: ObservableObject {
     let dataService: DataServiceProtocol
     let imageService: ImageServiceProtocol
     @Published private(set) var products: [ProductItemViewModel]?
-    @Published private(set) var state: ProductsViewModelState = .loading
+    @Published private(set) var state: ProductsViewModelState = .finished
     
+    var query: String = ""
     var currentPage: Int = 0
     var totalPages: Int = 1
     var hasMorePages: Bool {
@@ -34,7 +35,8 @@ class ProductsViewModel: ObservableObject {
         self.imageService = imageService
     }
     
-    func fetchProducts(query: String = "apple", page: Int = 1) {
+    func fetchProducts(query: String, page: Int = 1) {
+        self.query = query
         state = .loading
         let api = ProductsAPI(query: query, page: page)
         dataService.fetch(api: api) { [weak self] (result: Result<ProductsResponse, AppError>) in
@@ -64,6 +66,19 @@ class ProductsViewModel: ObservableObject {
     
     func fetchNextPage() {
         guard hasMorePages else { return }
-        fetchProducts(page: nextPage)
+        fetchProducts(query: query, page: nextPage)
+    }
+    
+    private func resetData() {
+        currentPage = 0
+        totalPages = 1
+        responseProducts.removeAll()
+        products?.removeAll()
+    }
+    
+    func updateSearchResults(for query: String) {
+        // Reset data for every new search
+        resetData()
+        fetchProducts(query: query)
     }
 }
