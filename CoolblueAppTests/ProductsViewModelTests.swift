@@ -38,7 +38,7 @@ class ProductsViewModelTests: XCTestCase {
         // System under test
         let sut = ProductsViewModel(dataService: dataService, imageService: imageService)
         
-        sut.fetchProducts()
+        sut.fetchProducts(query: "apple")
         
         // Assert
         wait(for: [dataService.expectation!], timeout: 1.0)
@@ -55,7 +55,7 @@ class ProductsViewModelTests: XCTestCase {
         // System under test
         let sut = ProductsViewModel(dataService: dataService, imageService: imageService)
         
-        sut.fetchProducts()
+        sut.fetchProducts(query: "apple")
         
         // Assert
         wait(for: [dataService.expectation!], timeout: 1.0)
