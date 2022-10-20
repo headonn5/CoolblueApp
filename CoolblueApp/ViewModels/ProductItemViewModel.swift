@@ -12,37 +12,44 @@ class ProductItemViewModel {
     let product: Product
     let imageService: ImageServiceProtocol
     
-    var formattedReview: NSAttributedString {
+    private lazy var starText: NSTextAttachment? = {
         let filledStar = NSTextAttachment()
         let imageConfig = UIImage.SymbolConfiguration(scale: .small)
         guard let image = UIImage(systemName: "star.circle.fill")?.withTintColor(.systemGreen),
               let font = UIFont(name: "HelveticaNeue", size: 14.0) else {
-                  return NSAttributedString()
+                  return nil
         }
         
         filledStar.image = image.withConfiguration(imageConfig)
         filledStar.bounds = CGRect(x: 0.0, y: (font.capHeight - image.size.height)/2, width: image.size.width, height: image.size.height)
         
-        let attributedString = NSMutableAttributedString(attachment: filledStar)
+        return filledStar
+    }()
+    
+    private lazy var checkmarkText: NSTextAttachment? = {
+        let bulletPoint = NSTextAttachment()
+        let imageConfig = UIImage.SymbolConfiguration(scale: .small)
+        guard let image = UIImage(systemName: "checkmark.circle")?.withTintColor(.systemGray),
+              let font = UIFont(name: "HelveticaNeue", size: 14.0) else {
+                  return nil
+        }
+        
+        bulletPoint.image = image.withConfiguration(imageConfig)
+        bulletPoint.bounds = CGRect(x: 0.0, y: (font.capHeight - image.size.height)/2, width: image.size.width, height: image.size.height)
+        return bulletPoint
+    }()
+    
+    var formattedReview: NSAttributedString {
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(attachment: starText ?? NSTextAttachment())
         let descriptionString = " \(product.reviewInformation.reviewSummary.reviewAverage) (\(product.reviewInformation.reviewSummary.reviewCount) reviews)"
         attributedString.append(NSAttributedString(string: descriptionString))
         return attributedString
     }
 
     var formattedUSPs: NSAttributedString {
-        let bulletPoint = NSTextAttachment()
-        let imageConfig = UIImage.SymbolConfiguration(scale: .small)
-        guard let image = UIImage(systemName: "checkmark.circle")?.withTintColor(.systemGray),
-              let font = UIFont(name: "HelveticaNeue", size: 14.0) else {
-                  return NSAttributedString()
-        }
-        
-        bulletPoint.image = image.withConfiguration(imageConfig)
-        bulletPoint.bounds = CGRect(x: 0.0, y: (font.capHeight - image.size.height)/2, width: image.size.width, height: image.size.height)
-        
         let attributedString = NSMutableAttributedString(string: "")
         for usp in product.USPs {
-            attributedString.append(NSAttributedString(attachment: bulletPoint))
+            attributedString.append(NSAttributedString(attachment: checkmarkText ?? NSTextAttachment()))
             attributedString.append(NSAttributedString(string: " \(usp)"))
             attributedString.append(NSAttributedString(string: "\n"))
         }

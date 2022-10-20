@@ -33,7 +33,7 @@ class ProductsViewModelTests: XCTestCase {
         let imageService = MockImageService()
         dataService.expectation = XCTestExpectation(description: "Products response should be updated.")
         
-        dataService.response = ProductsResponse(products: [product], currentPage: 1, pageSize: 1, totalResults: 1, pageCount: 1)
+        dataService.response = ProductsPage(products: [product], currentPage: 1, pageSize: 1, totalResults: 1, pageCount: 1)
         
         // System under test
         let sut = ProductsViewModel(dataService: dataService, imageService: imageService)

@@ -27,7 +27,7 @@ class DataServiceTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "The request is expected to return response Error")
         
-        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsResponse, AppError>) in
+        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsPage, AppError>) in
             do {
                 let _ = try result.get()
                 XCTFail("The Data Service request should throw an error.")
@@ -57,7 +57,7 @@ class DataServiceTests: XCTestCase {
         let expectation = XCTestExpectation(description: "The request is expected to parse data successfully.")
         let expectedTitle = "Apple iPhone 6 32GB Grijs"
         
-        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsResponse, AppError>) in
+        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsPage, AppError>) in
             guard let decodedObject = try? result.get() else {
                 XCTFail("The request should decode response successfully.")
                 return
@@ -81,7 +81,7 @@ class DataServiceTests: XCTestCase {
         let sut = DataService(networkService: mockNetworkService)
         let expectation = XCTestExpectation(description: "The request is expected to throw parse error.")
         
-        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsResponse, AppError>) in
+        sut.fetch(api: MockApiResource(path: "testPath")) { (result: Result<ProductsPage, AppError>) in
             do {
                 let _ = try result.get()
                 XCTFail("The request should throw parse error.")

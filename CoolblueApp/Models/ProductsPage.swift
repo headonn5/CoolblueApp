@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductsResponse: Decodable {
+struct ProductsPage: Decodable {
     let products : [Product]
     let currentPage : Int
     let pageSize : Int

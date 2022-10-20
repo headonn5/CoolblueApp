@@ -19,16 +19,16 @@ class ProductsViewModel: ObservableObject {
     @Published private(set) var products: [ProductItemViewModel]?
     @Published private(set) var state: ProductsViewModelState = .finished
     
-    var query: String = ""
-    var currentPage: Int = 0
-    var totalPages: Int = 1
-    var hasMorePages: Bool {
+    private var query: String = ""
+    private var currentPage: Int = 0
+    private var totalPages: Int = 1
+    private var hasMorePages: Bool {
         return currentPage < totalPages
     }
-    var nextPage: Int {
+    private var nextPage: Int {
         return hasMorePages ? currentPage + 1 : currentPage
     }
-    private var responseProducts: [ProductsResponse] = []
+    private var productsPages: [ProductsPage] = []
     
     init(dataService: DataServiceProtocol, imageService: ImageServiceProtocol) {
         self.dataService = dataService
@@ -39,21 +39,21 @@ class ProductsViewModel: ObservableObject {
         self.query = query
         state = .loading
         let api = ProductsAPI(query: query, page: page)
-        dataService.fetch(api: api) { [weak self] (result: Result<ProductsResponse, AppError>) in
+        dataService.fetch(api: api) { [weak self] (result: Result<ProductsPage, AppError>) in
             guard let self = self else { return }
             switch result {
             case .success(let response):
                 self.currentPage = response.currentPage
                 self.totalPages = response.pageCount
-                var newResponseProducts = self.responseProducts.filter { responseProduct in
-                    responseProduct.currentPage != response.currentPage
+                var updatedProductsPages = self.productsPages.filter { productsPage in
+                    productsPage.currentPage != response.currentPage
                 }
-                newResponseProducts.append(response)
+                updatedProductsPages.append(response)
                 
-                self.responseProducts = newResponseProducts
+                self.productsPages = updatedProductsPages
                 
                 self.products =
-                self.responseProducts
+                self.productsPages
                     .flatMap({ $0.products })
                     .map({ ProductItemViewModel(product: $0, imageService: self.imageService) })
                 
@@ -72,7 +72,7 @@ class ProductsViewModel: ObservableObject {
     private func resetData() {
         currentPage = 0
         totalPages = 1
-        responseProducts.removeAll()
+        productsPages.removeAll()
         products?.removeAll()
     }
     
